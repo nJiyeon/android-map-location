@@ -24,14 +24,13 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // local.properties 파일에서 API 키를 읽어옵니다.
         resValue("string", "KAKAO_API_KEY", getApiKey("kakaoApiKey"))
         buildConfigField("String", "KAKAO_REST_API_KEY", getApiKey("kakaoRestApiKey"))
         buildConfigField("String", "KAKAO_BASE_URL", getApiKey("kakaoBaseUrl"))
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
