@@ -7,7 +7,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import campus.tech.kakao.map.BuildConfig
+import campus.tech.kakao.MyApplication
 import campus.tech.kakao.map.adapter.keyword.KeywordAdapter
 import campus.tech.kakao.map.adapter.search.SearchAdapter
 import campus.tech.kakao.map.api.KakaoLocalApi
@@ -19,8 +19,6 @@ import campus.tech.kakao.map.viewmodel.keyword.KeywordViewModel
 import campus.tech.kakao.map.viewmodel.keyword.KeywordViewModelFactory
 import campus.tech.kakao.map.viewmodel.search.SearchViewModel
 import campus.tech.kakao.map.viewmodel.search.SearchViewModelFactory
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeywordItemClickListener {
     private lateinit var binding: ActivitySearchBinding
@@ -34,11 +32,8 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Retrofit 초기화
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BuildConfig.KAKAO_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        // Retrofit 인스턴스 가져오기
+        val retrofit = MyApplication.retrofit
         val api = retrofit.create(KakaoLocalApi::class.java)
 
         // ViewModel 초기화
@@ -66,8 +61,8 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
         }
 
         // 텍스트 입력 삭제 버튼 설정
-        binding.deleteTextInput.setOnClickListener {  // 삭제 버튼 클릭 이벤트 설정
-            binding.searchTextInput.text.clear()  // 검색어 입력란 텍스트 삭제
+        binding.deleteTextInput.setOnClickListener {
+            binding.searchTextInput.text.clear()
         }
 
         // 데이터 관찰하여 UI 업데이트 (검색 결과)
@@ -93,4 +88,10 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
     override fun onKeywordItemDeleteClick(keyword: String) {
         keywordViewModel.onKeywordItemDeleteClick(keyword)
     }
+
+    override fun onKeywordItemClick(keyword: String) {
+        binding.searchTextInput.setText(keyword)
+        searchViewModel.searchLocationData(keyword)
+    }
 }
+

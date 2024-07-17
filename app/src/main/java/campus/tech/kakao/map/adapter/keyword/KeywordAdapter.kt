@@ -34,6 +34,9 @@ class KeywordAdapter(private val onKeywordItemClickListener: OnKeywordItemClickL
 
         fun bindViewHolder(keyword: String, onKeywordItemClickListener: OnKeywordItemClickListener) {
             keywordTextView.text = keyword
+            keywordTextView.setOnClickListener {
+                onKeywordItemClickListener.onKeywordItemClick(keyword)
+            }
             removeIconView.setOnClickListener {
                 onKeywordItemClickListener.onKeywordItemDeleteClick(keyword)
             }
