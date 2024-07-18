@@ -1,5 +1,7 @@
 package campus.tech.kakao.map.view
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -32,15 +34,14 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Retrofit 인스턴스 가져오기
-        val retrofit = MyApplication.retrofit
-        val api = retrofit.create(KakaoLocalApi::class.java)
+        // Retrofit 초기화
+        val api = MyApplication.retrofit.create(KakaoLocalApi::class.java)
 
         // ViewModel 초기화
         searchViewModel = ViewModelProvider(this, SearchViewModelFactory(api))[SearchViewModel::class.java]
         keywordViewModel = ViewModelProvider(this, KeywordViewModelFactory(applicationContext))[KeywordViewModel::class.java]
 
-        // RecyclerView 설정 (검색 결과)
+        // 검색 결과 RecyclerView 설정
         searchAdapter = SearchAdapter(this)
         binding.searchResultView.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity)
@@ -48,7 +49,7 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
 
-        // RecyclerView 설정 (최근 검색어)
+        // 검색어 목록 RecyclerView 설정
         keywordAdapter = KeywordAdapter(this)
         binding.keywordHistoryView.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -60,38 +61,45 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
             searchViewModel.searchLocationData(it.toString())
         }
 
-        // 텍스트 입력 삭제 버튼 설정
+        // 취소 버튼 클릭 이벤트 설정
         binding.deleteTextInput.setOnClickListener {
             binding.searchTextInput.text.clear()
         }
 
-        // 데이터 관찰하여 UI 업데이트 (검색 결과)
+        // 검색어 목록 관찰
+        keywordViewModel.keywords.observe(this) {
+            keywordAdapter.submitList(it)
+        }
+
+        // 검색 결과 관찰하여 UI 업데이트
         searchViewModel.items.observe(this) {
             searchAdapter.submitList(it)
             binding.searchResultView.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
             binding.emptyView.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
-
-        // 데이터 관찰하여 UI 업데이트 (최근 검색어)
-        keywordViewModel.keyword.observe(this) {
-            keywordAdapter.submitList(it)
-        }
-
-        // 최근 검색어 읽기
-        keywordViewModel.readKeywordHistory()
     }
 
     override fun onSearchItemClick(item: Item) {
-        keywordViewModel.onSearchItemClick(item)
-    }
-
-    override fun onKeywordItemDeleteClick(keyword: String) {
-        keywordViewModel.onKeywordItemDeleteClick(keyword)
+        // 검색 항목 클릭 시 선택된 데이터를 반환하고 검색어 저장
+        keywordViewModel.saveKeyword(item.place)
+        val resultIntent = Intent().apply {
+            putExtra("place_name", item.place)
+            putExtra("road_address_name", item.address)
+            putExtra("latitude", item.latitude)
+            putExtra("longitude", item.longitude)
+        }
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
     }
 
     override fun onKeywordItemClick(keyword: String) {
+        // 저장된 검색어 클릭
         binding.searchTextInput.setText(keyword)
         searchViewModel.searchLocationData(keyword)
     }
-}
 
+    override fun onKeywordItemDeleteClick(keyword: String) {
+        // 저장된 검색어 삭제
+        keywordViewModel.deleteKeyword(keyword)
+    }
+}

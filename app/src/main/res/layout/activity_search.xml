@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.SearchActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/search_text_input_view"
@@ -35,20 +34,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="-30dp"
-            android:src="@drawable/ic_close"
-            android:contentDescription="@string/remove_keyword" />
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_close">
+        </ImageView>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/keyword_history_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/search_result_view_container"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_text_input_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_text_input_view"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/list_keyword" />
 
     <LinearLayout

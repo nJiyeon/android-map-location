@@ -23,7 +23,9 @@ class LocationDbHelper(context: Context) :
                     "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                     "${LocationContract.PLACE_NAME} TEXT," +
                     "${LocationContract.ADDRESS_NAME} TEXT," +
-                    "${LocationContract.CATEGORY_GROUP_NAME} TEXT)"
+                    "${LocationContract.CATEGORY_GROUP_NAME} TEXT," +
+                    "${LocationContract.LATITUDE} REAL," +
+                    "${LocationContract.LONGITUDE} REAL)"
 
         private const val SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS ${LocationContract.TABLE_NAME}"

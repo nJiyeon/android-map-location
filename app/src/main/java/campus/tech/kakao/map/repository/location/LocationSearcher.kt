@@ -11,7 +11,9 @@ class LocationSearcher(private val context: Context) {
         val projection = arrayOf(
             LocationContract.PLACE_NAME,
             LocationContract.ADDRESS_NAME,
-            LocationContract.CATEGORY_GROUP_NAME
+            LocationContract.CATEGORY_GROUP_NAME,
+            LocationContract.LATITUDE,
+            LocationContract.LONGITUDE
         )
 
         val selection = "${LocationContract.CATEGORY_GROUP_NAME} = ?"
@@ -29,14 +31,14 @@ class LocationSearcher(private val context: Context) {
 
         with(cursor) {
             while (moveToNext()) {
-                val placeName =
-                    getString(getColumnIndexOrThrow(LocationContract.PLACE_NAME))
-                val addressName =
-                    getString(getColumnIndexOrThrow(LocationContract.ADDRESS_NAME))
-                val categoryGroupName =
-                    getString(getColumnIndexOrThrow(LocationContract.CATEGORY_GROUP_NAME))
-                items.add(Item(placeName, addressName, categoryGroupName))
+                val placeName = getString(getColumnIndexOrThrow(LocationContract.PLACE_NAME))
+                val addressName = getString(getColumnIndexOrThrow(LocationContract.ADDRESS_NAME))
+                val categoryGroupName = getString(getColumnIndexOrThrow(LocationContract.CATEGORY_GROUP_NAME))
+                val latitude = getDouble(getColumnIndexOrThrow(LocationContract.LATITUDE))
+                val longitude = getDouble(getColumnIndexOrThrow(LocationContract.LONGITUDE))
+                items.add(Item(placeName, addressName, categoryGroupName, latitude, longitude))
             }
+            close()
         }
 
         return items
