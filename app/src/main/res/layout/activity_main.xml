@@ -14,7 +14,7 @@
         android:id="@+id/search_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search"
+        android:hint="검색어를 입력하세요"
         android:layout_alignParentTop="true"
         android:layout_margin="16dp"
         android:background="@android:drawable/editbox_background"/>
