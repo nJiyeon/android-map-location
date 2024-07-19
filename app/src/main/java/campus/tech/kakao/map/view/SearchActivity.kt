@@ -25,7 +25,7 @@ import campus.tech.kakao.map.viewmodel.search.SearchViewModelFactory
 class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeywordItemClickListener {
     private lateinit var binding: ActivitySearchBinding
     private lateinit var searchViewModel: SearchViewModel
-    private lateinit var keywordViewModel: KeywordViewModel
+    lateinit var keywordViewModel: KeywordViewModel
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var keywordAdapter: KeywordAdapter
 

@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeywordIt
         Log.d(TAG, "MapView paused")
     }
 
-    private fun showErrorScreen(error: Exception) {
+    fun showErrorScreen(error: Exception) {
         errorLayout.visibility = View.VISIBLE
         errorMessage.text = getString(R.string.map_error_message)
         errorDetails.text = error.message
