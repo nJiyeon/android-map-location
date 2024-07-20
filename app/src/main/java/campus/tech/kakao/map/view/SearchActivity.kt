@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import campus.tech.kakao.MyApplication
+import campus.tech.kakao.map.BuildConfig
 import campus.tech.kakao.map.adapter.keyword.KeywordAdapter
 import campus.tech.kakao.map.adapter.search.SearchAdapter
 import campus.tech.kakao.map.api.KakaoLocalApi

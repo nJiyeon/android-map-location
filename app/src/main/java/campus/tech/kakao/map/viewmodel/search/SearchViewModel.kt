@@ -23,3 +23,4 @@ class SearchViewModel(private val api: KakaoLocalApi) : ViewModel() {
         }
     }
 }
+

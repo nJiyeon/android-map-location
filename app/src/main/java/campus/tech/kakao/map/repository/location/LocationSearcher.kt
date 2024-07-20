@@ -40,7 +40,6 @@ class LocationSearcher(private val context: Context) {
             }
             close()
         }
-
         return items
     }
 

@@ -39,6 +39,7 @@ data class Document(
 
     @SerializedName("x")
     val longitude: Double
+
 )
 
 data class Meta(
