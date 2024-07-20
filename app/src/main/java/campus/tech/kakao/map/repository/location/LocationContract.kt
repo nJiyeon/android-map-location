@@ -10,3 +10,4 @@ object LocationContract : BaseColumns {
     const val LATITUDE = "latitude"
     const val LONGITUDE = "longitude"
 }
+

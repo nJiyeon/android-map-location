@@ -1,5 +1,6 @@
 package campus.tech.kakao.map.view
 
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -48,7 +49,6 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
             adapter = searchAdapter
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
-
         // 검색어 목록 RecyclerView 설정
         keywordAdapter = KeywordAdapter(this)
         binding.keywordHistoryView.apply {
@@ -60,7 +60,6 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
         binding.searchTextInput.doAfterTextChanged {
             searchViewModel.searchLocationData(it.toString())
         }
-
         // 취소 버튼 클릭 이벤트 설정
         binding.deleteTextInput.setOnClickListener {
             binding.searchTextInput.text.clear()
