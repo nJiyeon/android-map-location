@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 class MainActivityTest {
 
     @get:Rule
-    var activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
+    val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
     fun testSearchEditText_click_opensSearchActivity() {
